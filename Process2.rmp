@@ -19,7 +19,7 @@
         <parameter key="type" value="include attributes"/>
         <parameter key="attribute_filter_type" value="a subset"/>
         <parameter key="select_attribute" value=""/>
-        <parameter key="select_subset" value="␞Do you have Anxiety?␞Do you have Depression?␞Do you have Panic attack?␞Did you seek any specialist for a treatment?␞What is your CGPA?"/>
+        <parameter key="select_subset" value="␞Did you seek any specialist for a treatment?␞Do you have Anxiety?␞Do you have Depression?␞Do you have Panic attack?␞What is your CGPA?␞Marital status"/>
         <parameter key="also_apply_to_special_attributes_(id,_label..)" value="false"/>
       </operator>
       <operator activated="true" class="trim" compatibility="10.3.000" expanded="true" height="82" name="Trim" width="90" x="313" y="34">
@@ -36,7 +36,7 @@
         <parameter key="invert_selection" value="false"/>
         <parameter key="include_special_attributes" value="false"/>
       </operator>
-      <operator activated="true" class="map" compatibility="10.3.000" expanded="true" height="82" name="Map (2)" width="90" x="313" y="187">
+      <operator activated="true" class="map" compatibility="10.3.000" expanded="true" height="82" name="Map" width="90" x="313" y="187">
         <parameter key="attribute_filter_type" value="all"/>
         <parameter key="attribute" value="What is your CGPA?"/>
         <parameter key="attributes" value=""/>
@@ -63,7 +63,7 @@
       </operator>
       <operator activated="true" class="blending:set_role" compatibility="10.3.000" expanded="true" height="82" name="Set Role" width="90" x="447" y="187">
         <list key="set_roles">
-          <parameter key="Did you seek any specialist for a treatment?" value="label"/>
+          <parameter key="Marital status" value="label"/>
         </list>
       </operator>
       <operator activated="true" class="weight_by_correlation" compatibility="10.3.000" expanded="true" height="82" name="Weight by Correlation" width="90" x="581" y="187">
@@ -74,7 +74,7 @@
       </operator>
       <operator activated="true" class="select_by_weights" compatibility="10.3.000" expanded="true" height="103" name="Select by Weights" width="90" x="715" y="187">
         <parameter key="weight_relation" value="greater equals"/>
-        <parameter key="weight" value="0.1"/>
+        <parameter key="weight" value="0.3"/>
         <parameter key="k" value="10"/>
         <parameter key="p" value="0.5"/>
         <parameter key="deselect_unknown" value="true"/>
@@ -175,18 +175,20 @@
       </operator>
       <connect from_op="Retrieve Student Mental health" from_port="output" to_op="Select Attributes" to_port="example set input"/>
       <connect from_op="Select Attributes" from_port="example set output" to_op="Trim" to_port="example set input"/>
-      <connect from_op="Trim" from_port="example set output" to_op="Map (2)" to_port="example set input"/>
-      <connect from_op="Map (2)" from_port="example set output" to_op="Set Role" to_port="example set input"/>
+      <connect from_op="Trim" from_port="example set output" to_op="Map" to_port="example set input"/>
+      <connect from_op="Map" from_port="example set output" to_op="Set Role" to_port="example set input"/>
       <connect from_op="Set Role" from_port="example set output" to_op="Weight by Correlation" to_port="example set"/>
       <connect from_op="Weight by Correlation" from_port="weights" to_op="Select by Weights" to_port="weights"/>
       <connect from_op="Weight by Correlation" from_port="example set" to_op="Select by Weights" to_port="example set input"/>
       <connect from_op="Select by Weights" from_port="example set output" to_op="Validation" to_port="training"/>
+      <connect from_op="Select by Weights" from_port="original" to_port="result 3"/>
       <connect from_op="Validation" from_port="model" to_port="result 1"/>
       <connect from_op="Validation" from_port="averagable 1" to_port="result 2"/>
       <portSpacing port="source_input 1" spacing="0"/>
       <portSpacing port="sink_result 1" spacing="0"/>
       <portSpacing port="sink_result 2" spacing="0"/>
       <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
     </process>
   </operator>
 </process>
